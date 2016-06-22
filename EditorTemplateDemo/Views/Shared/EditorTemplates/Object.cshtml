@@ -1,0 +1,38 @@
+﻿@model dynamic
+<div class="form-horizontal">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    @foreach (var prop in ViewData.ModelMetadata.Properties
+        .Where(p => p.ShowForEdit))
+    {
+        if (prop.TemplateHint == "HiddenInput")
+        {
+            @Html.Hidden(prop.PropertyName)
+            continue;
+        }
+
+        if (prop.ModelType == typeof(bool))
+        {
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                    @Html.Editor(prop.PropertyName)
+                </div>
+            </div>
+            continue;
+        }
+
+        <div class="form-group">
+            @Html.BootstrapLabel(prop.PropertyName)
+            <div class="col-md-10">
+
+                @Html.Editor(prop.PropertyName)
+
+                <div>
+                    @Html.ValidationMessage(prop.PropertyName, new {@class = "text-danger"})
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,23 @@
+﻿@using EditorTemplateDemo.Data
+@using Heroic.Web.IoC
+@model int?
+    
+
+@{
+
+    var query = IoC.Container
+        .GetInstance<ApplicationDbContext>().CustomerTypes
+        .Select(m => new SelectListItem()
+        {
+            Text =  m.Description,
+            Value = m.Id.ToString(),
+            Selected = m.Id == Model
+        });
+
+    var customerTypes = query.ToList();
+
+    customerTypes.Insert(0, new SelectListItem { Text = "-- Select Customer Type --", Value = "0", Selected = true });
+
+}
+
+@Html.DropDownList("", customerTypes, new { @class = "form-control input-sm" })

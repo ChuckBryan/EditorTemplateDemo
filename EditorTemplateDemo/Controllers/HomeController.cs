@@ -42,7 +42,6 @@ namespace EditorTemplateDemo.Controllers
 
         public ActionResult Add()
         {
-            ViewBag.CustomerTypes = _dbContext.CustomerTypes.ToList();
 
             return View();
         }
